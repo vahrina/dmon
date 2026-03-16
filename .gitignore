@@ -1,0 +1,11 @@
+*.swp
+*.swo
+*~
+
+files/**/*.zip
+files/**/*.7z
+files/**/*.rar
+
+**:Zone.Identifier
+
+secret.md
