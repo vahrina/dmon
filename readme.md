@@ -51,6 +51,19 @@
 | <kbd>up</kbd> <kbd>down</kbd> | navigate between files       |
 | <kbd>backspace</kbd>          | return to previous directory |
 
+### downloads
+
+- i will temporarily open up the server when asked for - shoot me a pm @ **vahrina** on discord with your intention so i can filter out spam easier
+- ordering an appropriate server soon enough!
+
+### api
+
+the nginx site exposes a json dir listing used by the file pages
+
+-  listing data @ `https://emu.vah.wtf/api/list/`
+- response is nginx **autoindex** in **json** format with an array of objects containing all the data needed
+
 ### maintenance
 
-as of Mon Mar 23 22:32:31 CET 2026, downloads are currently unavailable, due to my local capacity (primarily owing to the absence of a server lol)
+- nginx + optional cloudflare / cloudflared in front of `/var/www/html`
+- bump `?v=` on `/assets/*` in `/partials/bottom.html` & `/partials/top.html` if cloudflare caches stale css/js
