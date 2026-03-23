@@ -1,17 +1,33 @@
 var form = document.createElement('form');
+form.id = 'search-form';
 var input = document.createElement('input');
 
 input.name = 'filter';
 input.id = 'search';
-input.placeholder = 'search...';
+function normalizeDir(pathname) {
+    if (!pathname) return '/';
+    var dir = pathname;
+    if (dir.endsWith('index.html')) dir = dir.slice(0, -'index.html'.length);
+    if (!dir.endsWith('/')) dir += '/';
+    return dir;
+}
+
+var dir = normalizeDir(window.location.pathname);
+input.placeholder = 'search ' + dir;
 
 form.appendChild(input);
-document.querySelector('h1').after(form);
-
-var listItems = Array.from(document.querySelectorAll('#list tbody tr'));
+var list = document.querySelector('table#list');
+if (list && list.parentNode) {
+    list.parentNode.insertBefore(form, list);
+} else {
+    document.body.prepend(form);
+}
 
 function performSearch() {
+    var allRows = Array.from(document.querySelectorAll('#list tbody tr'));
+    var listItems = allRows.filter(tr => !tr.querySelector('a[href="../"]'));
     var query = input.value.trim();
+
     if (!query) {
         listItems.forEach(item => item.removeAttribute('hidden'));
         return;
@@ -21,14 +37,8 @@ function performSearch() {
     var regex = RegExp(regexStr, "i");
 
     listItems.forEach(function(item) {
-        item.removeAttribute('hidden');
-    });
-
-    listItems.filter(function(item) {
         var text = item.querySelector('td').textContent.replace(/\s+/g, " ");
-        return !regex.test(text);
-    }).forEach(function(item) {
-        item.hidden = true;
+        item.hidden = !regex.test(text);
     });
 }
 
