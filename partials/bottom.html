@@ -1,0 +1,70 @@
+</tbody>
+</table>
+
+<script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
+<script type="text/javascript" src="/assets/search.js"></script>
+<script type="text/javascript" src="/assets/shortcuts.js"></script>
+<script>
+  (function () {
+    const tbody = document.querySelector('#list tbody');
+    if (!tbody) return;
+
+    const listUrl = '/api/list/' + location.pathname.replace(/^\/files\//, '');
+
+      fetch(listUrl)
+      .then(r => { if (!r.ok) throw 0; return r.json(); })
+      .then(entries => {
+        entries
+          .filter(e => e.name !== 'index.html')
+          .sort((a, b) => {
+            if (a.type !== b.type) return a.type === 'directory' ? -1 : 1;
+            return a.name.localeCompare(b.name);
+          })
+          .forEach(e => {
+            const isDir = e.type === 'directory';
+            const name  = isDir ? e.name + '/' : e.name;
+            const size  = isDir ? '…' : fmtSize(e.size);
+            const date  = fmtDate(e.mtime);
+
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+              `<td class="link"><a href="${encodeURI(name)}">${name}</a></td>` +
+              `<td class="size">${size}</td>` +
+              `<td class="date">${date}</td>`;
+            tbody.appendChild(tr);
+
+            if (isDir) {
+              const sizeCell = tr.querySelector('td.size');
+              fetch('/api/list/' + location.pathname.replace(/^\/files\//, '') + e.name + '/')
+                .then(r => r.ok ? r.json() : [])
+                .then(files => {
+                  const total = files
+                    .filter(f => f.type !== 'directory')
+                    .reduce((sum, f) => sum + (f.size || 0), 0);
+                  sizeCell.textContent = total ? fmtSize(total) : '-';
+                })
+                .catch(() => { sizeCell.textContent = '-'; });
+              }
+          });
+      })
+                .catch(() => {});
+
+              function fmtSize(b) {
+                if (!b) return '-';
+                const u = ['b','k','m','g','t'];
+                let i = 0;
+                while (b >= 1024 && i < u.length - 1) { b /= 1024; i++; }
+                return (i === 0 ? b : b.toFixed(1)) + u[i];
+              }
+
+              function fmtDate(iso) {
+                if (!iso) return '-';
+                const d = new Date(iso);
+                if (isNaN(d)) return '-';
+                const mon = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+                return `${String(d.getDate()).padStart(2,'0')}-${mon[d.getMonth()]}-${d.getFullYear()}`;
+              }
+  })();
+</script>
+</body>
+</html>

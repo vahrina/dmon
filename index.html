@@ -22,21 +22,60 @@
     <pre class="secret">25TNGURpnWQUes92ZUjzGyDJcVu6fcAdd8zPCr1brW8q8iuaamVjCdgiPTy319RMzHm9WN1caVBm9FabETdKq1Joe8aQsuB5pK5zfMj</pre>
     <br>
     <div class="row">
+      <a href="#" class="active-dir">home</a> |
       <a href="/files/">files</a> |
       <a href="https://github.com/vahrina/dmon.git" target="_blank">repo</a>
     </div>
     <br>
+
     <h3>what is this?</h3>
     <hr>
-    <p>dmon is a fork of the unfortunately no longer existing <a href="https://myrient.erista.me/">myrient</a></p>
-    <br>
-    <p>i keep my own flavor of retro games, while offering the following features</p>
+    <p>dmon is a minimal fork of the unfortunately soon defunct <a href="https://myrient.erista.me/" target="_blank">myrient</a> with following features</p>
     <ul>
-      <li>only a portion of what <a href="https://myrient.erista.me/">myrient</a> originally provided (> 300TB)</li>
+      <li>only a portion of what <a href="https://myrient.erista.me/" target="_blank">myrient</a> originally provided (> 300TB)</li>
       <li>no advertisements</li>
+      <li>no registration</li>
       <li>no paywalls</li>
-      <li>no registration is needed to download</li>
     </ul>
+    <br>
+
+    <h3>is this all that's left?</h3>
+    <hr>
+    <p><b style="color: #b294bb;">no!</b> luckily, many people are actively contributing to preseve digital history ⸜(｡˃ ᵕ ˂)⸝♡ below are several reliable sources i came across while creating this minimal version</p>
+    <ul>
+      <li><a href="https://discord.com/invite/4kVP9AuQ24" target="_blank">official discord</a></li>
+      <li><a href="https://minerva-archive.org/" target="_blank">minerva-archive.org</a></li>
+      <li><a href="https://myrient.org/" target="_blank">myrient.org</a></li>
+    </ul>
+    <br>
+
+    <h3>note about file dates</h3>
+    <hr>
+    <ul>
+      <li>upload dates <b>will</b> differ, as <code>wget</code> preserves the original "last modified" timestamp, instead of the initial upload seen prior on myrient</li>
+      <li>original timestamps were retained where possible; apologies for any inconsistencies ;-;</li>
+    </ul>
+    <br>
+
+    <h3>note about (currently) unavailble files</h3>
+    <hr>
+    <ul>
+      <li>working on it!! ₍^. .^₎⟆ (didnt buy a server yet as of 23/03/2026)</li>
+      <!--
+        <li>as suggested per faq from myrient, you may also download via wget in your shell with the suggested command <code>wget -m -np -c -e robots=off -R "index.html*" "[URL]"</code></li>
+      -->
+    </ul>
+    <br>
+
+    <script>
+      const actions = {
+        'f': () => location = '/files/',
+        'r': e => { if (!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey) { window.open('https://github.com/vahrina/dmon', '_blank'); } },
+      };
+
+      onkeydown = e => actions[e.key]?.(e);
+    </script>
+
   </body>
 </html>
 
