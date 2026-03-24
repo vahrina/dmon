@@ -9,3 +9,5 @@ files/**/*.rar
 **:Zone.Identifier
 
 secret.md
+*.sh
+todo.md
