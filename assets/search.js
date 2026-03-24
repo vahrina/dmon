@@ -56,3 +56,4 @@ function debounce(func, delay) {
 input.addEventListener('input', debounce(performSearch, 250));
 
 form.addEventListener('submit', e => e.preventDefault());
+

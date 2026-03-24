@@ -1,48 +1,21 @@
 .logo {
-    font: 10px/9px monospace;
-    color: rgba(255, 255, 255, 0.35);
-    cursor: copy;
-  }
-  
-  .logo [class^="fire-"] {
-    transition:
-      opacity 0.42s cubic-bezier(0.33, 0, 0.2, 1),
-      filter 0.45s cubic-bezier(0.33, 0, 0.2, 1);
-  }
-  
-  .logo .fire-tip {
-    color: #ffe8e0;
-    text-shadow: 0 0 8px rgba(255, 190, 165, 0.42), 0 0 16px rgba(255, 150, 130, 0.2);
-  }
-  .logo .fire-core {
-    color: #ffd4c4;
-    text-shadow: 0 0 6px rgba(255, 170, 140, 0.35);
-  }
-  .logo .fire-hot {
-    color: #ffc4a8;
-    text-shadow: 0 0 5px rgba(255, 155, 120, 0.32);
-  }
-  .logo .fire-mid {
-    color: #ffb39a;
-    text-shadow: 0 0 4px rgba(255, 140, 110, 0.28);
-  }
-  .logo .fire-deep {
-    color: #ffa08c;
-    text-shadow: 0 0 4px rgba(255, 130, 115, 0.26);
-  }
-  .logo .fire-ember {
-    color: #d4a090;
-    text-shadow: 0 0 3px rgba(200, 140, 125, 0.22);
-  }
-  .logo .fire-ash {
-    color: #9a8880;
-    text-shadow: none;
-  }
-  
-  @media (prefers-reduced-motion: reduce) {
-    .logo [class^="fire-"] {
-      opacity: 0.88 !important;
-      filter: none !important;
-      transition: none;
-    }
-  }
+  font: 10px/9px monospace;
+  color: rgba(255,255,255,.35);
+  cursor: copy;
+}
+.logo [class^="fire-"] {
+  transition: opacity .22s ease, filter .24s ease;
+}
+.logo .fire-tip, .logo .fire-core {
+  transition: opacity .14s ease, filter .16s ease;
+}
+
+.logo .fire-tip  { color: #ffbdad; text-shadow: 0 0 10px rgba(255,160,120,.55), 0 0 20px rgba(255,110,90,.25); }
+.logo .fire-core { color: #ffad98; text-shadow: 0 0 7px  rgba(255,145,105,.45); }
+.logo .fire-hot  { color: #ff9e88; text-shadow: 0 0 5px  rgba(255,130, 95,.38); }
+.logo .fire-mid  { color: #ff907a; text-shadow: 0 0 4px  rgba(255,120, 90,.32); }
+.logo .fire-deep { color: #e8806e; text-shadow: 0 0 4px  rgba(230,110, 85,.28); }
+
+.logo .fire-ember { color: #c49484; text-shadow: 0 0 3px rgba(190,130,115,.22); }
+.logo .fire-ash   { color: #8a7a76; text-shadow: none; }
+

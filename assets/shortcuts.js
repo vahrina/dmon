@@ -30,3 +30,4 @@ document.addEventListener('keydown', e => {
 
   if (actions[e.key]) actions[e.key](e);
 })
+
