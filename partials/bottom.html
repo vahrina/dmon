@@ -10,11 +10,14 @@
   const tbody = document.querySelector('#list tbody');
   if (!tbody) return;
 
-  const listUrl = '/api/list/' + location.pathname.replace(/^\/files\//, '');
+  // point both /data & /data/ to the api root
+  const dataRel = location.pathname.replace(/^\/data(?:\/|$)/, '');
+  const listUrl = '/api/list/' + dataRel;
 
     fetch(listUrl)
     .then(r => { if (!r.ok) throw 0; return r.json(); })
     .then(entries => {
+      const atDataRoot = dataRel === '';
       entries
         .filter(e => e.name !== 'index.html')
         .sort((a, b) => {
@@ -36,19 +39,41 @@
 
           if (isDir) {
             const sizeCell = tr.querySelector('td.size');
-            fetch('/api/list/' + location.pathname.replace(/^\/files\//, '') + e.name + '/')
-              .then(r => r.ok ? r.json() : [])
-              .then(files => {
-                const total = files
-                  .filter(f => f.type !== 'directory')
-                  .reduce((sum, f) => sum + (f.size || 0), 0);
+            const rel = dataRel + e.name + '/';
+            if (atDataRoot) {
+              dirTotalBytes(rel).then(total => {
                 sizeCell.textContent = total ? fmtSize(total) : '-';
-              })
-              .catch(() => { sizeCell.textContent = '-'; });
+              }).catch(() => { sizeCell.textContent = '-'; });
+            } else {
+              fetch('/api/list/' + rel)
+                .then(r => r.ok ? r.json() : [])
+                .then(files => {
+                  const total = files
+                    .filter(f => f.type !== 'directory')
+                    .reduce((sum, f) => sum + (f.size || 0), 0);
+                  sizeCell.textContent = total ? fmtSize(total) : '-';
+                })
+                .catch(() => { sizeCell.textContent = '-'; });
             }
+          }
         });
     })
     .catch(() => {});
+
+    function dirTotalBytes(relPath) {
+      return fetch('/api/list/' + relPath)
+        .then(r => { if (!r.ok) throw 0; return r.json(); })
+        .then(entries => {
+          let filesSum = 0;
+          const subdirs = [];
+          for (const e of entries) {
+            if (e.name === 'index.html') continue;
+            if (e.type === 'directory') subdirs.push(relPath + e.name + '/');
+            else filesSum += e.size || 0;
+          }
+          return Promise.all(subdirs.map(dirTotalBytes)).then(parts => filesSum + parts.reduce((a, b) => a + b, 0));
+        });
+    }
 
     function fmtSize(b) {
       if (!b) return '-';

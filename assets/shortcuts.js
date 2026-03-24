@@ -8,7 +8,7 @@ document.addEventListener('keydown', e => {
 
   const actions = {
     'h': () => { if (!typing) window.location.href = '/'; },
-    'f': () => { if (!typing) window.location.href = '/files/'; },
+    'd': () => { if (!typing) window.location.href = '/data/'; },
     'r': () => { if (!typing && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey) window.open('https://github.com/vahrina/dmon', '_blank'); },
     '/': e => { if (!typing) { e.preventDefault(); search.focus(); } },
     'Escape': () => { if (typing) search.blur(); },

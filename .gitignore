@@ -2,9 +2,9 @@
 *.swo
 *~
 
-files/**/*.zip
-files/**/*.7z
-files/**/*.rar
+data/**/*.zip
+data/**/*.7z
+data/**/*.rar
 
 **:Zone.Identifier
 
