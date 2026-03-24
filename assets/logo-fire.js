@@ -4,6 +4,21 @@
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   })();
 
+  if (slow) {
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn("enable os animations for full fire effects");
+    }
+    try {
+      if (!document.getElementById('motion-debug')) {
+        var dbg = document.createElement('div');
+        dbg.id = 'motion-debug';
+        dbg.className = 'motion-debug';
+        dbg.textContent = 'reduced motion [on] - enable os animations for effects';
+        document.body.appendChild(dbg);
+      }
+    } catch (e) {}
+  }
+
   var hue = { 'fire-tip':[-28,32], 'fire-core':[-18,24], 'fire-hot':[-10,16], 'fire-mid':[-7,15], 'fire-deep':[-5,18], 'fire-ember':[-4,10], 'fire-ash':[-3,6] };
   function rand(lo, hi) { return lo + Math.random() * (hi - lo); }
 
