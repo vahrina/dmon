@@ -49,12 +49,6 @@ hr {
 .logo,
 .secret { text-align: center; }
 
-.logo {
-  font: 10px/9px monospace;
-  color: #fff;
-  cursor: copy;
-}
-
 .secret {
   font: 10px/24px monospace;
   color: gray;
