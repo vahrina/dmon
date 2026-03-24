@@ -1,0 +1,48 @@
+.logo {
+    font: 10px/9px monospace;
+    color: rgba(255, 255, 255, 0.35);
+    cursor: copy;
+  }
+  
+  .logo [class^="fire-"] {
+    transition:
+      opacity 0.42s cubic-bezier(0.33, 0, 0.2, 1),
+      filter 0.45s cubic-bezier(0.33, 0, 0.2, 1);
+  }
+  
+  .logo .fire-tip {
+    color: #ffe8e0;
+    text-shadow: 0 0 8px rgba(255, 190, 165, 0.42), 0 0 16px rgba(255, 150, 130, 0.2);
+  }
+  .logo .fire-core {
+    color: #ffd4c4;
+    text-shadow: 0 0 6px rgba(255, 170, 140, 0.35);
+  }
+  .logo .fire-hot {
+    color: #ffc4a8;
+    text-shadow: 0 0 5px rgba(255, 155, 120, 0.32);
+  }
+  .logo .fire-mid {
+    color: #ffb39a;
+    text-shadow: 0 0 4px rgba(255, 140, 110, 0.28);
+  }
+  .logo .fire-deep {
+    color: #ffa08c;
+    text-shadow: 0 0 4px rgba(255, 130, 115, 0.26);
+  }
+  .logo .fire-ember {
+    color: #d4a090;
+    text-shadow: 0 0 3px rgba(200, 140, 125, 0.22);
+  }
+  .logo .fire-ash {
+    color: #9a8880;
+    text-shadow: none;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .logo [class^="fire-"] {
+      opacity: 0.88 !important;
+      filter: none !important;
+      transition: none;
+    }
+  }
