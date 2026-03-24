@@ -63,7 +63,7 @@ hr {
 
 code {
   font-family: 'JetBrains Mono', monospace;
-  font-size: var(--normal-size);
+  font-size: .75em;
   background: var(--pastel-gray);
   padding: var(--radius-sm);
   border-radius: var(--radius-sm);

@@ -4,6 +4,7 @@ var input = document.createElement('input');
 
 input.name = 'filter';
 input.id = 'search';
+input.autocomplete = 'off';
 function normalizeDir(pathname) {
     if (!pathname) return '/';
     var dir = pathname;
