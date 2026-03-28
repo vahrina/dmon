@@ -190,12 +190,35 @@
     if (el) el.remove();
   }
 
+  function clearCache() {
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('dmon_'));
+    keys.forEach(k => localStorage.removeItem(k));
+    return keys.length;
+  }
+
   document.addEventListener('keydown', e => {
     const typing = document.activeElement &&
       (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA');
-    if (e.key === 'g' && !typing) {
+    if (typing) return;
+
+    if (e.key === 'g') {
       e.preventDefault();
       openModal();
+    } else if (e.key === 'c') {
+      e.preventDefault();
+      clearCache();
+      const status = document.getElementById('gs-status');
+      const inp    = document.getElementById('gs-input');
+      if (status && inp) {
+        inp.value = '';
+        status.textContent = 'rebuilding index...';
+        buildIndex().then(idx => {
+          inp.dispatchEvent(new Event('input'));
+          status.textContent = idx.length.toLocaleString() + ' entries indexed · >d dirs · >f files';
+        }).catch(() => {
+          status.textContent = 'failed to rebuild index';
+        });
+      }
     }
   });
 })();

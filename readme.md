@@ -32,6 +32,7 @@
 | <kbd>/</kbd>                  | focus search               |
 | <kbd>esc</kbd>                | unfocus search             |
 | <kbd>g</kbd>                  | open global search         |
+| <kbd>c</kbd>                  | clear cache & rebuild index  |
 | <kbd>h</kbd>                  | go to `/`                    |
 | <kbd>d</kbd>                  | go to `/data/`               |
 | <kbd>r</kbd>                  | go to the source code        |
