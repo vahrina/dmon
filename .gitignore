@@ -1,14 +1,9 @@
 *.swp
 *.swo
 *~
-
-data/**/*.zip
-data/**/*.7z
-data/**/*.rar
-
 **:Zone.Identifier
 
-secret.md
-todo.md
+data
+shell
 
-shell/
+secret.md

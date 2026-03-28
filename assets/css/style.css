@@ -145,6 +145,8 @@ a:hover {
   border-color: var(--pastel-pink);
   background-color: var(--pastel-gray);
   transform: translateY(-1px);
+  caret-shape: block;
+  caret-color: var(--pastel-lav);
 }
 
 input {
@@ -253,3 +255,4 @@ td a { display: block; }
   color: var(--pastel-lav);
   font-size: .8em;
 }
+

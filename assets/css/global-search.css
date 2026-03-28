@@ -1,0 +1,99 @@
+#gs-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 32, 32, .88);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  backdrop-filter: blur(3px);
+}
+
+#gs-modal {
+  width: min(720px, 92vw);
+  background: var(--bg);
+  border: var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+#gs-input {
+  display: block;
+  width: 100%;
+  height: 36px;
+  padding: 4px 32px 4px 6px;
+  border-radius: var(--radius-md);
+  border: var(--border-strong);
+  box-sizing: border-box;
+  text-align: center;
+  caret-color: transparent;
+  color: #fff;
+  font: inherit;
+  user-select: text !important;
+  transition: all var(--transition) 220ms;
+}
+#gs-input:focus {
+  outline: none;
+  border-color: var(--pastel-pink);
+  background-color: var(--pastel-gray);
+  transform: translateY(-1px);
+  caret-shape: block;
+  caret-color: var(--pastel-lav);
+}
+
+#gs-status {
+  font-size: .72em;
+  color: gray;
+  text-align: right;
+  padding-right: 2px;
+}
+
+#gs-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 58vh;
+  overflow-y: auto;
+}
+
+#gs-results li a {
+  display: flex;
+  gap: .3em;
+  padding: .25rem .4rem;
+  border-radius: var(--radius-sm);
+  font-size: .85em;
+  color: gray;
+  text-decoration: none;
+  transition: background var(--transition);
+  outline: none;
+  overflow: hidden;
+}
+#gs-results li a:hover,
+#gs-results li a:focus {
+  color: #fff;
+  background: rgba(178, 148, 187, .08);
+  cursor: pointer;
+}
+
+.gs-dir {
+  opacity: .4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.gs-name {
+  flex-shrink: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+#gs-results mark {
+  background: transparent;
+  color: var(--pastel-lav);
+  font-weight: 600;
+}
