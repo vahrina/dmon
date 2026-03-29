@@ -9,7 +9,7 @@
         const { ts, index } = JSON.parse(hit);
         if (Date.now() - ts < CACHE_TTL) return Promise.resolve(index);
       }
-    } catch (_) { }
+    } catch (_) {}
 
     const index = [];
     const cf = window.dmonFetch;
@@ -32,10 +32,13 @@
     }
 
     return crawl('').then(() => {
-      try { localStorage.setItem(INDEX_KEY, JSON.stringify({ ts: Date.now(), index })); } catch (_) { }
+      try { localStorage.setItem(INDEX_KEY, JSON.stringify({ ts: Date.now(), index })); } catch (_) {}
       return index;
     });
   }
+
+  // expose for ui.js
+  window.dmonBuildIndex = buildIndex;
 
   function highlight(text, query) {
     if (!query) return text;
@@ -49,27 +52,24 @@
   function openModal() {
     if (document.getElementById('gs-overlay')) return;
 
-    const STATUS_HINT = ' |  >d dir · >f file';
+    const STATUS_HINT = ' | >d dir · >f file';
 
     const overlay = document.createElement('div');
     overlay.id = 'gs-overlay';
     overlay.innerHTML =
       '<div id="gs-modal">' +
-      '<input id="gs-input" type="text" autocomplete="off" spellcheck="false">' +
-      '<div id="gs-status">building index...</div>' +
+      '<input id="gs-input" type="text" autocomplete="off" spellcheck="false" placeholder="search...">' +
+      '<div id="gs-status"></div>' +
       '<ul id="gs-results"></ul>' +
       '</div>';
     document.body.appendChild(overlay);
 
-    const inp = document.getElementById('gs-input');
+    const inp    = document.getElementById('gs-input');
     const status = document.getElementById('gs-status');
-    const list = document.getElementById('gs-results');
-    inp.placeholder = 'search...';
+    const list   = document.getElementById('gs-results');
     inp.focus();
 
-    function setStatus(main) {
-      status.textContent = main + STATUS_HINT;
-    }
+    function setStatus(main) { status.textContent = main + STATUS_HINT; }
 
     setStatus('building index...');
 
@@ -78,45 +78,29 @@
     buildIndex().then(idx => {
       index = idx;
       setStatus(idx.length.toLocaleString() + ' entries indexed');
-    }).catch(() => {
-      setStatus('failed to index');
-    });
+    }).catch(() => setStatus('failed to index'));
 
     function render(rawQ) {
       list.innerHTML = '';
 
       if (!rawQ) {
-        setStatus(index
-          ? index.length.toLocaleString() + ' entries indexed'
-          : 'building index...');
+        setStatus(index ? index.length.toLocaleString() + ' entries indexed' : 'building index...');
         return;
       }
 
       if (!index) { setStatus('still indexing...'); return; }
 
       let filterDirs = null, term = rawQ;
-      if (rawQ.startsWith('>d')) { filterDirs = true; term = rawQ.slice(2).trim(); }
+      if (rawQ.startsWith('>d')) { filterDirs = true;  term = rawQ.slice(2).trim(); }
       else if (rawQ.startsWith('>f')) { filterDirs = false; term = rawQ.slice(2).trim(); }
       else if (rawQ.startsWith('>')) { setStatus('invalid argument'); return; }
 
-      if (filterDirs === false && !term) {
-        setStatus('filter files');
-        return;
-      }
-
-      // no prefix + no term
-      if (filterDirs === null && !term) {
-        setStatus(index.length.toLocaleString() + ' entries indexed');
-        return;
-      }
-
-      // require 2+ chars in search term
-      if (term.length === 1) {
-        return;
-      }
+      if (filterDirs === false && !term) { setStatus('filter files'); return; }
+      if (filterDirs === null  && !term) { setStatus(index.length.toLocaleString() + ' entries indexed'); return; }
+      if (term.length === 1) return;
 
       const ql = term.toLowerCase();
-      const t0 = term ? performance.now() : null;
+      const t0 = performance.now();
 
       let hits = index.filter(e =>
         (filterDirs === null || e.dir === filterDirs) &&
@@ -125,30 +109,39 @@
 
       if (filterDirs === null) hits.sort((a, b) => b.dir - a.dir);
 
-      // >d with no term
       if (filterDirs === true && !term) {
         setStatus(`${hits.length} director${hits.length !== 1 ? 'ies' : 'y'}`);
       } else {
         const elapsed = (performance.now() - t0).toFixed(1);
-        setStatus(`${hits.length} results in ${elapsed}ms`);
+        setStatus(`${hits.length} result${hits.length !== 1 ? 's' : ''} in ${elapsed}ms`);
       }
 
-      hits.forEach(e => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-
-        // parent path relative to /data/
-        const rel = e.path.replace(/^\/data\//, '');
+      const frag = document.createDocumentFragment();
+      for (const e of hits) {
+        const rel     = e.path.slice(6); // strip '/data/'
         const dirPart = rel.slice(0, rel.length - e.name.length - (e.dir ? 1 : 0));
 
-        a.href = encodeURI(e.path);
+        const li = document.createElement('li');
+        const a  = document.createElement('a');
+        a.href  = encodeURI(e.path);
         a.title = e.path;
-        a.innerHTML =
-          (dirPart ? '<span class="gs-dir">' + dirPart + '</span>' : '') +
-          '<span class="gs-name">' + highlight(e.name, term) + (e.dir ? '/' : '') + '</span>';
+
+        if (dirPart) {
+          const ds = document.createElement('span');
+          ds.className = 'gs-dir';
+          ds.textContent = dirPart;
+          a.appendChild(ds);
+        }
+
+        const ns = document.createElement('span');
+        ns.className = 'gs-name';
+        ns.innerHTML = highlight(e.name, term) + (e.dir ? '/' : '');
+        a.appendChild(ns);
+
         li.appendChild(a);
-        list.appendChild(li);
-      });
+        frag.appendChild(li);
+      }
+      list.appendChild(frag);
     }
 
     inp.addEventListener('input', () => render(inp.value.trim()));
@@ -178,7 +171,6 @@
     });
 
     overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-
     overlay.addEventListener('keydown', e => {
       if (e.key === 'Escape') { close(); return; }
       e.stopPropagation();
@@ -186,40 +178,14 @@
   }
 
   function close() {
-    const el = document.getElementById('gs-overlay');
-    if (el) el.remove();
-  }
-
-  function clearCache() {
-    const keys = Object.keys(localStorage).filter(k => k.startsWith('dmon_'));
-    keys.forEach(k => localStorage.removeItem(k));
-    return keys.length;
+    document.getElementById('gs-overlay')?.remove();
   }
 
   document.addEventListener('keydown', e => {
-    const typing = document.activeElement &&
-      (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA');
-    if (typing) return;
-
-    if (e.key === 'g') {
-      e.preventDefault();
-      openModal();
-    } else if (e.key === 'c') {
-      e.preventDefault();
-      clearCache();
-      const status = document.getElementById('gs-status');
-      const inp    = document.getElementById('gs-input');
-      if (status && inp) {
-        inp.value = '';
-        status.textContent = 'rebuilding index...';
-        buildIndex().then(idx => {
-          inp.dispatchEvent(new Event('input'));
-          status.textContent = idx.length.toLocaleString() + ' entries indexed · >d dirs · >f files';
-        }).catch(() => {
-          status.textContent = 'failed to rebuild index';
-        });
-      }
-    }
+    const typing = document.activeElement?.tagName === 'INPUT' ||
+                   document.activeElement?.tagName === 'TEXTAREA';
+    if (typing || e.key !== 'g') return;
+    e.preventDefault();
+    openModal();
   });
 })();
-

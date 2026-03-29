@@ -3,12 +3,8 @@
   color: rgba(255,255,255,.35);
   cursor: copy;
 }
-.logo [class^="fire-"] {
-  transition: opacity .22s ease, filter .24s ease;
-}
-.logo .fire-tip, .logo .fire-core {
-  transition: opacity .14s ease, filter .16s ease;
-}
+.logo [class^="fire-"] { transition: opacity .22s ease, filter .24s ease; }
+.logo .fire-tip, .logo .fire-core { transition: opacity .14s ease, filter .16s ease; }
 
 .logo .fire-tip  { color: #ffbdad; text-shadow: 0 0 10px rgba(255,160,120,.55), 0 0 20px rgba(255,110,90,.25); }
 .logo .fire-core { color: #ffad98; text-shadow: 0 0 7px  rgba(255,145,105,.45); }

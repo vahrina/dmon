@@ -1,0 +1,22 @@
+@import url("root.css");
+
+#dmon-toast {
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    z-index: 2000;
+    padding: .35rem .7rem;
+    border: 2px solid var(--pastel-gray);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--pastel-lav);
+    font-size: .8em;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity .2s var(--transition), transform .2s var(--transition);
+    pointer-events: none;
+}
+#dmon-toast.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

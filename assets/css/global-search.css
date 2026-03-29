@@ -1,3 +1,5 @@
+@import url("root.css");
+
 #gs-overlay {
   position: fixed;
   inset: 0;

@@ -13,7 +13,15 @@ function normalizeDir(pathname) {
   return dir;
 }
 
-var dir = normalizeDir(window.location.pathname);
+function shortDir(pathname) {
+  var full = normalizeDir(pathname);
+  // dont strip leading slash
+  var parts = full.replace(/^\//, '').split('/').filter(Boolean);
+  if (parts.length <= 2) return full;
+  return parts.slice(-2).join('/') + '/';
+}
+
+var dir = shortDir(window.location.pathname);
 input.placeholder = 'search ' + dir;
 
 form.appendChild(input);

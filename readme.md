@@ -27,11 +27,11 @@
 
 ### shortcuts
 
-| key                           | action                     |
-| :---------------------------- | :------------------------- |
-| <kbd>/</kbd>                  | focus search               |
-| <kbd>esc</kbd>                | unfocus search             |
-| <kbd>g</kbd>                  | open global search         |
+| key                           | action                       |
+| :---------------------------- | :--------------------------- |
+| <kbd>/</kbd>                  | focus search                 |
+| <kbd>esc</kbd>                | unfocus search               |
+| <kbd>g</kbd>                  | open global search           |
 | <kbd>c</kbd>                  | clear cache & rebuild index  |
 | <kbd>h</kbd>                  | go to `/`                    |
 | <kbd>d</kbd>                  | go to `/data/`               |
@@ -43,11 +43,38 @@
 
 - i will temporarily open up the server when asked for - shoot me a pm @ **vahrina** on discord with your intention so i can filter out spam easier
 - ordering an appropriate server soon enough!
+- download individual files
+  ```sh
+  wget -c "https://emu.vah.wtf/data/[path]/[file]"
+  ```
+- or mirror an entire directory
+  ```sh
+  wget -m -np -c -e robots=off -R "index.html*" "https://emu.vah.wtf/data/[path]/"
+  ```
 
 ### api
 
-- endpoint @ `root/api/list/` (https://emu.vah.wtf/api/list/)
-- directory listings are exposed via nginx autoindex in json format with an array of objects containing all the information needed
+- directory listings are exposed via nginx autoindex in json format @ [/api/list/[path]](https://emu.vah.wtf/api/list/)
+- each entry contains: `name`, `type`, `size`, `mtime`
+- examples below demonstrating fetching all [nintendo/n64/](https://emu.vah.wtf/data/nintendo/n64/) entries
+
+**shell** | print json to stdout ([jq](https://jqlang.org/) optional)
+```sh
+# list all entries at a path
+curl https://emu.vah.wtf/api/list/nintendo/n64/ | jq .
+
+# filter only files, print names + sizes
+curl -s https://emu.vah.wtf/api/list/nintendo/n64/ \
+| jq '[.[] | select(.type=="file") | {name, size}]'
+```
+
+**broser** | paste the devtools console on this origin
+```js
+fetch('/api/list/nintendo/n64/')
+.then(r => r.json())
+.then(entries => entries.filter(e => e.type === 'file'))
+.then(console.table);
+```
 
 ### to do's / roadmap
 
@@ -55,8 +82,6 @@
 - [x] rename `/files/` to `/data/`
 - [x] recursively sum the total size of the subdir contents in `/data/`
 - [ ] vim status bar („• ֊ •„)
-- [x] proper caching
+- [x] proper caching + modal
 - [ ] help modal for shortcuts
-- [ ] content coverage
-- [ ] tutorial for achievements (retro arch + retro archievements)
 - [ ] expand secrets because i cant come up with any
