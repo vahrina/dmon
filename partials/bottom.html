@@ -41,7 +41,6 @@
 
     cachedFetch(listUrl)
       .then(entries => {
-        const atDataRoot = dataRel === '';
         entries
           .filter(e => e.name !== 'index.html')
           .sort((a, b) => {
@@ -64,20 +63,9 @@
             if (isDir) {
               const sizeCell = tr.querySelector('td.size');
               const rel = dataRel + e.name + '/';
-              if (atDataRoot) {
-                dirTotalBytes(rel).then(total => {
-                  sizeCell.textContent = total ? fmtSize(total) : '~';
-                }).catch(() => {sizeCell.textContent = '~';});
-              } else {
-                cachedFetch('/api/list/' + rel)
-                  .then(files => {
-                    const total = files
-                      .filter(f => f.type !== 'directory')
-                      .reduce((sum, f) => sum + (f.size || 0), 0);
-                    sizeCell.textContent = total ? fmtSize(total) : '~';
-                  })
-                  .catch(() => {sizeCell.textContent = '~';});
-              }
+              dirTotalBytes(rel).then(total => {
+                sizeCell.textContent = total ? fmtSize(total) : '~';
+              }).catch(() => { sizeCell.textContent = '~'; });
             }
           });
       })
