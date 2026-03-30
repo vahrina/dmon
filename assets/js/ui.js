@@ -7,16 +7,16 @@
 
   document.addEventListener('keydown', e => {
     const typing = document.activeElement?.tagName === 'INPUT' ||
-                   document.activeElement?.tagName === 'TEXTAREA';
+      document.activeElement?.tagName === 'TEXTAREA';
     if (typing) return;
 
-    if (e.key === 'c') {
+    if (e.ctrlKey && e.key === 'c') {
       e.preventDefault();
       clearCache();
       window.dmonToast('cache cleared', 3000);
 
       const status = document.getElementById('gs-status');
-      const inp    = document.getElementById('gs-input');
+      const inp = document.getElementById('gs-input');
       if (status && inp) {
         inp.value = '';
         status.textContent = 'rebuilding index...';

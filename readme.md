@@ -37,7 +37,8 @@
 | <kbd>/</kbd>                  | focus search                 |
 | <kbd>esc</kbd>                | unfocus search               |
 | <kbd>g</kbd>                  | open global search           |
-| <kbd>c</kbd>                  | clear cache & rebuild index  |
+| <kbd>ctrl c</kbd>             | clear cache                  |
+| <kbd>v</kbd>                  | toggle vim status            |
 | <kbd>h</kbd>                  | go to `/`                    |
 | <kbd>d</kbd>                  | go to `/data/`               |
 | <kbd>r</kbd>                  | go to the source code        |
@@ -96,9 +97,11 @@ if you'd like a cleaner table output, append following snippet at the end of the
 - [x] global search
 - [x] rename `/files/` to `/data/`
 - [x] recursively sum the total size of the subdir contents in `/data/`
-- [ ] vim status bar („• ֊ •„)
+- [x] vim status bar („• ֊ •„)
+  - [x] ^ toggleable on `v`
 - [x] proper caching + modal
 - [ ] help modal for shortcuts
 - [ ] expand secrets because i cant come up with any
 - [ ] helper script to download dirs (wget cant crawl `index.html` due to js app not being a real dir listing)
+- [ ] directories with [...] to their name indicate a 1:1 100% copy of myrient
 

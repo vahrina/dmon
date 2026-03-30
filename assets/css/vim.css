@@ -1,0 +1,36 @@
+@import url('/assets/css/root.css');
+
+.vim-section {
+  opacity: 1;
+  cursor: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: var(--border-strong);
+  background: var(--bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 24px;
+  font-family: var(--font);
+  font-size: var(--normal-size);
+  line-height: 2;
+  color: var(--pastel-pink);
+  z-index: 10;
+  letter-spacing: 1px;
+  transition: var(--transition) 300ms;
+}
+
+.left-group,
+.right-group {
+  display: flex;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

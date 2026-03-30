@@ -11,12 +11,13 @@
   --border-strong: 2px solid var(--pastel-gray);
   --header-size: 1.4em;
   --normal-size: 1em;
+  --font: monospace, sans-serif;
 }
 
 *,
 *::before,
 *::after {
-  font-family: monospace, sans-serif;
+  font-family: var(--font);
   margin: 0;
   padding: 0;
   box-sizing: border-box;

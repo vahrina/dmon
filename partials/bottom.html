@@ -1,6 +1,3 @@
-</tbody>
-</table>
-
 <script data-cfasync="false" type="text/javascript" src="/assets/js/logo.js"></script>
 <script data-cfasync="false" src="https://unpkg.com/xregexp/xregexp-all.js"></script>
 <script data-cfasync="false" type="text/javascript" src="/assets/js/search.js"></script>
@@ -8,6 +5,7 @@
 <script data-cfasync="false" type="text/javascript" src="/assets/js/toast.js"></script>
 <script data-cfasync="false" type="text/javascript" src="/assets/js/global-search.js"></script>
 <script data-cfasync="false" type="text/javascript" src="/assets/js/ui.js"></script>
+<script data-cfasync="false" type="text/javascript" src="/assets/js/vim.js"></script>
 <script data-cfasync="false">
   (function () {
     const tbody = document.querySelector('#list tbody');
@@ -65,7 +63,7 @@
               const rel = dataRel + e.name + '/';
               dirTotalBytes(rel).then(total => {
                 sizeCell.textContent = total ? fmtSize(total) : '~';
-              }).catch(() => { sizeCell.textContent = '~'; });
+              }).catch(() => {sizeCell.textContent = '~';});
             }
           });
       })
