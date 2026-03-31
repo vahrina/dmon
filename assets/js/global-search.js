@@ -39,6 +39,9 @@
 
   // expose for ui.js
   window.dmonBuildIndex = buildIndex;
+  window.dmonStatusHint = ' | >d dir · >f file · <exclude';
+
+  const STATUS_HINT = window.dmonStatusHint;
 
   function highlight(text, query) {
     if (!query) return text;
@@ -51,8 +54,6 @@
 
   function openModal() {
     if (document.getElementById('gs-overlay')) return;
-
-    const STATUS_HINT = ' | >d dir · >f file';
 
     const overlay = document.createElement('div');
     overlay.id = 'gs-overlay';
@@ -95,19 +96,39 @@
       else if (rawQ.startsWith('>f')) { filterDirs = false; term = rawQ.slice(2).trim(); }
       else if (rawQ.startsWith('>')) { setStatus('invalid argument'); return; }
 
-      if (filterDirs === false && !term) { setStatus('filter files'); return; }
-      if (filterDirs === null  && !term) { setStatus(index.length.toLocaleString() + ' entries indexed'); return; }
-      if (term.length === 1) return;
+      // Extract <exclusion tokens; only apply those with 3+ chars (too short = too expensive)
+      const excludes = [];
+      term = term.split(/\s+/).filter(w => {
+        if (w.startsWith('<') && w.length > 1) {
+          const ex = w.slice(1).toLowerCase();
+          if (ex.length >= 3) excludes.push(ex);
+          return false;
+        }
+        return true;
+      }).join(' ');
+
+      if (filterDirs === false && !term && !excludes.length) { setStatus('filter files'); return; }
+      if (filterDirs === null  && !term && !excludes.length) { setStatus(index.length.toLocaleString() + ' entries indexed'); return; }
+      if (!excludes.length && term.length === 1) return;
 
       const ql = term.toLowerCase();
       const t0 = performance.now();
 
-      let hits = index.filter(e =>
-        (filterDirs === null || e.dir === filterDirs) &&
-        (!ql || e.name.toLowerCase().includes(ql))
-      );
+      let hits = index.filter(e => {
+        if (filterDirs !== null && e.dir !== filterDirs) return false;
+        if (ql && !e.name.toLowerCase().includes(ql)) return false;
+        if (excludes.length) {
+          // For files, check only the parent directory path (not the filename).
+          // For dirs, check the dir's own path so '<amiibo' excludes the amiibo dir itself.
+          const dirPath = e.dir
+            ? e.path.toLowerCase()
+            : e.path.slice(0, e.path.length - e.name.length).toLowerCase();
+          if (excludes.some(ex => dirPath.includes(ex))) return false;
+        }
+        return true;
+      });
 
-      if (filterDirs === null) hits.sort((a, b) => b.dir - a.dir);
+      hits.sort((a, b) => a.path.localeCompare(b.path));
 
       if (filterDirs === true && !term) {
         setStatus(`${hits.length} director${hits.length !== 1 ? 'ies' : 'y'}`);

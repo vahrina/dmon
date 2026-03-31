@@ -23,7 +23,7 @@
         (window.dmonBuildIndex?.() ?? Promise.reject())
           .then(idx => {
             inp.dispatchEvent(new Event('input'));
-            status.textContent = idx.length.toLocaleString() + ' entries indexed | >d dir · >f file';
+            status.textContent = idx.length.toLocaleString() + ' entries indexed' + (window.dmonStatusHint ?? '');
           })
           .catch(() => { status.textContent = 'failed to rebuild index'; });
       }
