@@ -1,9 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const VIM_LS = 'dmon_vim_visible';
   const fileNameEl = document.getElementById('file-name');
   const fileTypeEl = document.getElementById('file-type');
   const posEl = document.getElementById('pos');
+  const footerEl = document.getElementById('vim-footer');
 
   if (!fileNameEl || !fileTypeEl || !posEl) return;
+
+  try {
+    if (localStorage.getItem(VIM_LS) === '1') footerEl?.classList.remove('hidden');
+    else footerEl?.classList.add('hidden');
+  } catch (_) { }
 
   const path = window.location.pathname;
   const segments = path.split('/').filter(Boolean);
@@ -36,7 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
     posEl.textContent = `${percent}%`;
   }
 
-  document.addEventListener('keydown', e => e.key === 'v' && document.getElementById("vim-footer").classList.toggle("hidden"));
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'v' || e.ctrlKey || e.metaKey || e.altKey) return;
+    const typing = document.activeElement?.tagName === 'INPUT' ||
+      document.activeElement?.tagName === 'TEXTAREA' ||
+      document.activeElement?.isContentEditable;
+    if (typing) return;
+    if (!footerEl) return;
+    e.preventDefault();
+    footerEl.classList.toggle('hidden');
+    try {
+      localStorage.setItem(VIM_LS, footerEl.classList.contains('hidden') ? '0' : '1');
+    } catch (_) { }
+  });
 
   window.addEventListener('scroll', updatePosition, { passive: true });
   window.addEventListener('resize', updatePosition);

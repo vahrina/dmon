@@ -1,6 +1,6 @@
 (function () {
   const LISTING_TTL = 24 * 60 * 60 * 1000;
-  const SIZE_TTL    =  7 * 24 * 60 * 60 * 1000;
+  const SIZE_TTL = 7 * 24 * 60 * 60 * 1000;
   const CP = 'dmon_';
 
   async function cachedFetch(url) {
@@ -11,11 +11,11 @@
         const { ts, data } = JSON.parse(hit);
         if (Date.now() - ts < LISTING_TTL) return Promise.resolve(data);
       }
-    } catch (_) {}
+    } catch (_) { }
     return fetch(url)
       .then(r => { if (!r.ok) throw 0; return r.json(); })
       .then(data => {
-        try { localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); } catch (_) {}
+        try { localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); } catch (_) { }
         return data;
       });
   }
@@ -30,7 +30,7 @@
         const { ts, total } = JSON.parse(hit);
         if (Date.now() - ts < SIZE_TTL) return Promise.resolve(total);
       }
-    } catch (_) {}
+    } catch (_) { }
     return cachedFetch('/api/list/' + relPath)
       .then(entries => {
         let filesSum = 0;
@@ -42,7 +42,7 @@
         }
         return Promise.all(subdirs.map(dirTotalBytes)).then(parts => {
           const total = filesSum + parts.reduce((a, b) => a + b, 0);
-          try { localStorage.setItem(tkey, JSON.stringify({ ts: Date.now(), total })); } catch (_) {}
+          try { localStorage.setItem(tkey, JSON.stringify({ ts: Date.now(), total })); } catch (_) { }
           return total;
         });
       });
@@ -60,18 +60,32 @@
     if (!iso) return '-';
     const d = new Date(iso);
     if (isNaN(d)) return '-';
-    const mon = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-    return `${String(d.getDate()).padStart(2,'0')}-${mon[d.getMonth()]}-${d.getFullYear()}`;
+    const mon = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    return `${String(d.getDate()).padStart(2, '0')}-${mon[d.getMonth()]}-${d.getFullYear()}`;
   }
 
   const tbody = document.querySelector('#list tbody');
   if (!tbody) return;
 
-  const dataRel = location.pathname.replace(/^\/data(?:\/|$)/, '');
-  const listUrl = '/api/list/' + dataRel;
+  const dataRel = location.pathname.replace(/^\/data\/?/, '');
+  const listUrl = `/api/list/${dataRel}`;
 
-  cachedFetch(listUrl)
-    .then(entries => {
+  // mark completed dirs with a star
+  const completeP = fetch('/complete.json')
+    .then(r => r.json())
+    .catch(() => []);
+
+  // ^ matching ^\/data\/?
+  const normalizeCompletePath = p =>
+  (p ? (s => s.endsWith('/') ? s : s + '/')(
+    String(p).trim().replace(/^\/+/, '')
+  ) : '');
+
+  Promise.all([cachedFetch(listUrl), completeP])
+    .then(([entries, completeDirs]) => {
+      const completeSet = new Set((completeDirs || []).map(normalizeCompletePath));
+      window.dmonCompleteDirs = completeSet;
+
       entries
         .filter(e => e.name !== 'index.html')
         .sort((a, b) => {
@@ -80,13 +94,15 @@
         })
         .forEach(e => {
           const isDir = e.type === 'directory';
-          const name  = isDir ? e.name + '/' : e.name;
-          const size  = isDir ? '~' : fmtSize(e.size);
-          const date  = fmtDate(e.mtime);
+          const name = isDir ? e.name + '/' : e.name;
+          const size = isDir ? '~' : fmtSize(e.size);
+          const date = fmtDate(e.mtime);
+          const badge = (isDir && completeSet.has(dataRel + name))
+            ? '<span class="complete-mark">*</span>' : '';
 
           const tr = document.createElement('tr');
           tr.innerHTML =
-            `<td class="link"><a href="${encodeURI(name)}">${name}</a></td>` +
+            `<td class="link"><a href="${encodeURI(name)}">${name}${badge}</a></td>` +
             `<td class="size">${size}</td>` +
             `<td class="date">${date}</td>`;
           tbody.appendChild(tr);
@@ -100,5 +116,5 @@
           }
         });
     })
-    .catch(() => {});
+    .catch(() => { });
 })();

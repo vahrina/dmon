@@ -1,0 +1,19 @@
+[
+  "nintendo/amiibo",
+  "nintendo/wii-u-disc-keys/",
+  "nintendo/game-boy",
+  "nintendo/game-boy-color",
+  "nintendo/gamecube",
+  "nintendo/nes-headered",
+  "nintendo/nes-headerless",
+  "retro-achievements/nintendo/ds",
+  "retro-achievements/nintendo/dsi",
+  "retro-achievements/nintendo/game-boy",
+  "retro-achievements/nintendo/game-boy-advance",
+  "retro-achievements/nintendo/game-boy-color",
+  "retro-achievements/nintendo/gamecube",
+  "retro-achievements/nintendo/n64",
+  "retro-achievements/nintendo/snes",
+  "retro-achievements/sega-genesis",
+  "misc/valve-dev-repo/"
+]

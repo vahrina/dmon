@@ -45,6 +45,38 @@
 | <kbd>↑</kbd> <kbd>↓</kbd>     | navigate between files       |
 | <kbd>backspace</kbd>          | return to previous directory |
 
+### global search
+
+inside the `/data/` directory, you may hit <kbd>g</kbd> and find fuzzy finding files to narrow your search down easier
+
+feel free to blindly type your suggested game, or try out some of the filters i can provide you with
+
+| filter criteria               | action                        |
+| :---------------------------- | :---------------------------- |
+| `~f query`                    | filter by file names          |
+| `~d query`                    | filter by directory names     |
+| `!exclusion`                  | exclude a certain directory   |
+
+**examples**
+
+```md
+> include both file & dir in your query
+ocarina of time
+
+> find all 'zelda' roms
+~f zelda
+
+> find every 'game boy' directory except gbc
+~d game boy !game-boy-color
+
+> both exclusions (comma chaining/separation)
+> will generate the same output
+~f super mario !ds,3ds
+~f super mario !ds !3ds
+```
+
+**please avoid putting a bare exclusion with no prior query**, it will impact search time drastically - hence exclusion last!
+
 ### downloads
 
 - i will temporarily open up the server when asked for - shoot me a pm @ **vahrina** on discord with your intention so i can filter out spam easier
@@ -103,5 +135,5 @@ if you'd like a cleaner table output, append following snippet at the end of the
 - [ ] help modal for shortcuts
 - [ ] expand secrets because i cant come up with any
 - [ ] helper script to download dirs (wget cant crawl `index.html` due to js app not being a real dir listing)
-- [ ] directories with [...] to their name indicate a 1:1 100% copy of myrient
+- [x] directories with a trailing asterik '*' to their name indicate a 1:1 100% copy of myrient's dir
 

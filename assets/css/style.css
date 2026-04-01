@@ -204,6 +204,12 @@ td a { display: block; }
 
 .active-dir { color: var(--pastel-pink); }
 
+.complete-mark {
+  color: var(--pastel-lav);
+  pointer-events: none;
+  text-decoration: none;
+}
+
 .active-dir:hover { text-decoration: none; }
 
 ::-webkit-scrollbar { display: none; }
