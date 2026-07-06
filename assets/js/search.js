@@ -42,8 +42,11 @@ function performSearch() {
     return;
   }
 
-  var regexStr = "(^|.*[^\\pL])" + query.split(/\s+/).join("([^\\pL]|[^\\pL].*[^\\pL])") + ".*$";
-  var regex = RegExp(regexStr, "i");
+  var NL = '[^\\p{L}]';
+  var escaped = query.split(/\s+/).map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  var regexStr = "(^|.*" + NL + ")" + escaped.join("(" + NL + "|" + NL + ".*" + NL + ")") + ".*$";
+  var regex;
+  try { regex = new RegExp(regexStr, "iu"); } catch (_) { return; }
 
   listItems.forEach(function(item) {
     var text = item.querySelector('td').textContent.replace(/\s+/g, " ");

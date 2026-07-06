@@ -1,4 +1,41 @@
-@import url("root.css");
+:root {
+  --bg: #1c2020;
+  --pastel-pink: #f8e0ee;
+  --pastel-lav: #b294bb;
+  --pastel-gray: #393d47;
+  --transition: cubic-bezier(.62,.01,.44,.99);
+  --radius-sm: .3rem;
+  --radius-md: .4rem;
+  --border-strong: 2px solid var(--pastel-gray);
+  --header-size: 1.4em;
+  --normal-size: 1em;
+  --font: monospace, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  font-family: var(--font);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none !important;
+}
+
+html,
+body {
+  background-color: var(--bg);
+  color: var(--pastel-gray);
+  font-size: var(--normal-size);
+  line-height: 2;
+}
+
+body {
+  margin: 0 auto;
+  padding: 20px 5px 5px;
+  max-width: 100%;
+  color: #fff;
+}
 
 hr {
   height: 2px;
@@ -18,7 +55,7 @@ hr {
 }
 
 code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: monospace, sans-serif;
   font-size: .75em;
   background: var(--pastel-gray);
   padding: var(--radius-sm);

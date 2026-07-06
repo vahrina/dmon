@@ -7,28 +7,9 @@
 
 ### directory structure
 
-- web root @ `/var/www/html` ([emu.vah.wtf](https://emu.vah.wtf))
-- binaries @ `/var/www/html/data/`
-
-```sh
-> $ tree . --du -hL 2 --dirstfirst
-[ 60K]  .
-├── [ 12K]  assets
-│   ├── [4.0K]  css
-│   └── [4.0K]  js
-├── [  15]  data -> /mnt/x/www-data
-├── [ 12K]  partials
-│   ├── [4.7K]  bottom.html
-│   ├── [ 290]  nav.html
-│   ├── [ 452]  table-head.html
-│   └── [2.8K]  top.html
-├── [3.3K]  readme.md
-└── [3.2K]  index.html
-
-  60K used in 7 directories, 13 files
-```
-
-> output reduced to how the structure compiles, disregarding unimportant content
+- web root @ [emu](https://emu.vah.wtf)
+- binaries @ [emu/data](https://emu.vah.wtf/data)
+- api @ [emu/api](https://emu.vah.wtf/api/list)
 
 ### shortcuts
 
@@ -47,7 +28,7 @@
 
 ### global search
 
-inside the `/data/` directory, you may hit <kbd>g</kbd> and find fuzzy finding files to narrow your search down easier
+inside the `/data/` directory, you may hit <kbd>g</kbd> & find fuzzy finding files to narrow your search down easier
 
 feel free to blindly type your suggested game, or try out some of the filters i can provide you with
 
@@ -75,7 +56,7 @@ ocarina of time
 ~f super mario !ds !3ds
 ```
 
-**please avoid putting a bare exclusion with no prior query**, it will impact search time drastically - hence exclusion last!
+**please avoid putting a bare exclusion with no prior query**, it will impact search time **drastically** - hence exclusion last!
 
 ### downloads
 
@@ -102,7 +83,7 @@ curl -s https://emu.vah.wtf/api/list/nintendo/n64/ \
 | jq '[.[] | select(.type=="file") | {name, size}]'
 ```
 
-**browser** | paste the devtools console on this origin
+**browser** | paste into the devtools console
 
 ```js
 // get all entries of type 'file'
