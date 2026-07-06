@@ -31,7 +31,7 @@
         if (Date.now() - ts < SIZE_TTL) return Promise.resolve(total);
       }
     } catch (_) { }
-    return cachedFetch('/api/list/' + relPath)
+    return cachedFetch('/api/' + relPath)
       .then(entries => {
         let filesSum = 0;
         const subdirs = [];
@@ -68,7 +68,7 @@
   if (!tbody) return;
 
   const dataRel = location.pathname.replace(/^\/data\/?/, '');
-  const listUrl = `/api/list/${dataRel}`;
+  const listUrl = `/api/${dataRel}`;
 
   // mark completed dirs with a star
   const completeP = fetch('/complete.json')

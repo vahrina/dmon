@@ -9,7 +9,7 @@
 
 - web root @ [emu](https://emu.vah.wtf)
 - binaries @ [emu/data](https://emu.vah.wtf/data)
-- api @ [emu/api](https://emu.vah.wtf/api/list)
+- api @ [emu/api](https://emu.vah.wtf/api/)
 
 ### shortcuts
 
@@ -68,7 +68,7 @@ ocarina of time
 
 ### api
 
-- directory listings are exposed via nginx autoindex in json format @ [/api/list/[path]](https://emu.vah.wtf/api/list/)
+- directory listings are exposed via nginx autoindex in json format @ [/api/[path]](https://emu.vah.wtf/api/)
 - each entry contains: `name`, `type`, `size`, `mtime`
 - examples below demonstrating fetching all [nintendo/n64/](https://emu.vah.wtf/data/nintendo/n64/) entries
 
@@ -76,10 +76,10 @@ ocarina of time
 
 ```sh
 # list all entries at a path
-curl https://emu.vah.wtf/api/list/nintendo/n64/ | jq .
+curl https://emu.vah.wtf/api/nintendo/n64/ | jq .
 
 # filter only files, print names + sizes
-curl -s https://emu.vah.wtf/api/list/nintendo/n64/ \
+curl -s https://emu.vah.wtf/api/nintendo/n64/ \
 | jq '[.[] | select(.type=="file") | {name, size}]'
 ```
 
@@ -87,15 +87,15 @@ curl -s https://emu.vah.wtf/api/list/nintendo/n64/ \
 
 ```js
 // get all entries of type 'file'
-fetch('/api/list/nintendo/n64/').then(r => r.json())
+fetch('/api/nintendo/n64/').then(r => r.json())
 .then(entries => entries.filter(e => e.type === 'file'))
 
 // only include 'name' & 'size' in the output
-fetch('/api/list/nintendo/n64/').then(r => r.json())
+fetch('/api/nintendo/n64/').then(r => r.json())
 .then(files => console.table(files, ['name', 'size']));
 
 // or excluding a specific key value 'mtime' & 'size'
-fetch('/api/list/nintendo/n64/').then(r => r.json())
+fetch('/api/nintendo/n64/').then(r => r.json())
 .then(files => files.map(({ mtime, size, ...rest }) => rest))
 ```
 

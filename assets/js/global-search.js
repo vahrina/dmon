@@ -15,7 +15,7 @@
     const cf = window.dmonFetch;
 
     function crawl(relPath) {
-      return cf('/api/list/' + relPath).then(entries => {
+      return cf('/api/' + relPath).then(entries => {
         const subs = [];
         for (const e of entries) {
           if (e.name === 'index.html') continue;
