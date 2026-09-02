@@ -106,8 +106,11 @@ if you'd like a cleaner table output, append following snippet at the end of the
 ```
 
 ### assets
-![ ](./assets/img/main.png)
-![ ](./assets/img/dir.png)
+
+<div>
+  <img src='./assets/img/main_padded.png' width='49%'>
+  <img src='./assets/img/dir_padded.png' width='49%'>
+</div>
 
 ### to do's / roadmap
 
