@@ -106,8 +106,8 @@ if you'd like a cleaner table output, append following snippet at the end of the
 ```
 
 ### assets
-![ ]('./assets/img/main.png')
-![ ]('./assets/img/dir.png')
+![ ](./assets/img/main.png)
+![ ](./assets/img/dir.png)
 
 ### to do's / roadmap
 
