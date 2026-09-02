@@ -105,6 +105,10 @@ if you'd like a cleaner table output, append following snippet at the end of the
 .then(console.table);
 ```
 
+### assets
+![ ]('./assets/img/main.png')
+![ ]('./assets/img/dir.png')
+
 ### to do's / roadmap
 
 - [x] global search
