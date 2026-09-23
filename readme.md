@@ -105,6 +105,26 @@ if you'd like a cleaner table output, append following snippet at the end of the
 .then(console.table);
 ```
 
+### additional information
+
+**texture packs**
+
+under [nintendo/texture-packs](http://emu.vah.wtf/data/nintendo/texture-packs/), you may find various (but mostly zelda) texture packs primarily for pc. all credits belong to [henriko magnifico](https://www.henrikomagnifico.com) who made them publicly accessible
+
+you may also find a `setup.md` inside every file archive. if that's not the case, refer to [henrikomagnifico/texture-packs](https://www.henrikomagnifico.com/texture-packs)
+
+> the directory is intentionally not marked as **complete**, because [pikmin](https://www.henrikomagnifico.com/pikmin-4k), [pikmin 2](https://www.henrikomagnifico.com/pikmin-2-4k-texture-pack) & [wii sports](https://www.henrikomagnifico.com/wii-sports-4k) are missing
+
+**physial media**
+
+under [data/physical-media](http://emu.vah.wtf/data/physical-media/), you may find my personal, legitimately obtained/dumped binaries
+
+you will find everything necessary to get started inside the [guide - serials - modding](http://localhost/data/physical-media/guide%20-%20serials%20-%20modding.7z) archive
+
+**secrets**
+
+maybe you can find & decode them all? ʚ🍓ɞ
+
 ### assets
 
 <div>
@@ -124,4 +144,5 @@ if you'd like a cleaner table output, append following snippet at the end of the
 - [ ] expand secrets because i cant come up with any
 - [ ] helper script to download dirs (wget cant crawl `index.html` due to js app not being a real dir listing)
 - [x] directories with a trailing asterik '*' to their name indicate a 1:1 100% copy of myrient's dir
+- [ ] omit trailing extension of archives, e.g. `.7z`, `.zip`; `.rar`
 

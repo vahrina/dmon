@@ -1,11 +1,18 @@
 [
   "nintendo/amiibo",
-  "nintendo/wii-u-disc-keys/",
+  "nintendo/wii-u-disc-keys",
   "nintendo/game-boy",
   "nintendo/game-boy-color",
   "nintendo/gamecube",
   "nintendo/nes-headered",
   "nintendo/nes-headerless",
+  "nintendo/texture-packs/luigi",
+  "nintendo/texture-packs/mario",
+  "nintendo/texture-packs/zelda",
+  "misc",
+  "misc/valve-dev-repo",
+  "physical-media",
+  "retro-achievements/nintendo",
   "retro-achievements/nintendo/ds",
   "retro-achievements/nintendo/dsi",
   "retro-achievements/nintendo/game-boy",
@@ -14,6 +21,5 @@
   "retro-achievements/nintendo/gamecube",
   "retro-achievements/nintendo/n64",
   "retro-achievements/nintendo/snes",
-  "retro-achievements/sega-genesis",
-  "misc/valve-dev-repo/"
+  "retro-achievements/sega-genesis"
 ]
