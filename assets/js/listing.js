@@ -99,12 +99,15 @@
           const date = fmtDate(e.mtime);
           const badge = (isDir && completeSet.has(dataRel + name))
             ? '<span class="complete-mark">*</span>' : '';
+          const extMatch = name.match(/\.(zip|7z|rar)$/i);
+          const ext = extMatch ? extMatch[1].toLowerCase() : '';
 
           const tr = document.createElement('tr');
           tr.innerHTML =
-            `<td class="link"><a href="${encodeURI(name)}">${name}${badge}</a></td>` +
-            `<td class="size">${size}</td>` +
-            `<td class="date">${date}</td>`;
+            `<td class="link"><a href="${encodeURI(name)}">${name.replace(/\.(zip|7z|rar)$/i, "")}${badge}</a></td>` +
+              `<td class="ext">${ext}</td>` +
+              `<td class="size">${size}</td>` +
+              `<td class="date">${date}</td>`;
           tbody.appendChild(tr);
 
           if (isDir) {

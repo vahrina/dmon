@@ -144,5 +144,4 @@ maybe you can find & decode them all? ʚ🍓ɞ
 - [ ] expand secrets because i cant come up with any
 - [ ] helper script to download dirs (wget cant crawl `index.html` due to js app not being a real dir listing)
 - [x] directories with a trailing asterik '*' to their name indicate a 1:1 100% copy of myrient's dir
-- [ ] omit trailing extension of archives, e.g. `.7z`, `.zip`; `.rar`
-
+- [x] omit trailing extension of archives, e.g. `.7z`, `.zip`; `.rar` in names & instead display as separate column

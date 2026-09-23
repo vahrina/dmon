@@ -182,19 +182,22 @@ th {
   font-size: .75em;
   padding-right: 20px;
 }
-th + th { width: 25%; }
-th + th + th + th { width: 5%; }
 
 th .file-name,
 th .file-size,
-th .file-date { padding: 0 10px; }
+th .file-date,
+th .file-ext { padding: 0 10px; }
 
-th .file-name { width: 60%; }
-th .file-size { width: 25%; }
-th .file-date { width: 30%; }
+.file-size,
+.file-date,
+.file-ext,
+td.size,
+td.date,
+td.ext { text-align: right; }
+
 
 td {
-  padding: .7rem 0;
+  padding: .7rem 10px;
   border-bottom: var(--border-strong);
   vertical-align: middle;
   text-align: left;
